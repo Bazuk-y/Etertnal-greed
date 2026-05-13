@@ -1,10 +1,7 @@
 <?= $this->extend('Layout/template') ?>
 <?= $this->section('content'); ?>
 <div class="row">
-<?php
-foreach ($karty as $row) { //kdyz tohle umazu tak facha
-    ?>
-
+  
 <div class="card" style="width:400px">
     <img class="card-img-top" src="../bootstrap4/img_avatar1.png" alt="Card image" style="width:100%">
     <div class="card-body">
