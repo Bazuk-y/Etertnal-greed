@@ -1,7 +1,10 @@
 <?= $this->extend('Layout/template') ?>
 <?= $this->section('content'); ?>
 <div class="row">
-  
+<?php
+/** @ var array $karty */
+foreach ($funguj as $row) {
+    ?>
 <div class="card" style="width:400px">
     <img class="card-img-top" src="../bootstrap4/img_avatar1.png" alt="Card image" style="width:100%">
     <div class="card-body">
@@ -10,7 +13,6 @@
       <a href="#" class="btn btn-primary">See Profile</a>
     </div>
   </div>
-
   <?php
 }
 ?>

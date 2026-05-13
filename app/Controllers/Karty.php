@@ -3,16 +3,20 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Controllers\Karty as KartyModel;
+use App\Models\Karty as KartyModel;
+
+
 
 class Karty extends BaseController
 {
     private $dataTypkomponent;
 
     public function index(){
-        $TKM = new KartyModel();
+        $KM = new KartyModel();
+        $funguj = $KM->findAll();
         $data = [
-            "karty" => $TKM
+            "funguj" => $funguj
+
         ];
         echo view('Karty', $data);
 
