@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafRace extends Model
+class KoloslafRider extends Model
 {
-    protected $table            = 'koloslafrace';
+    protected $table            = 'rider';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';

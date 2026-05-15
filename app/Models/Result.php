@@ -4,10 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafStage extends Model
+class Result extends Model
 {
-    protected $table            = 'koloslafstage';
-    protected $primaryKey       = 'id';
+    protected $table            = 'result';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;

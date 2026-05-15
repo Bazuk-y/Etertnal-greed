@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafNote extends Model
+class Note extends Model
 {
-    protected $table            = 'koloslafnote';
+    protected $table            = 'note';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';

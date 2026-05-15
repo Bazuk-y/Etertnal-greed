@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafRaceType extends Model
+class NoteType extends Model
 {
-    protected $table            = 'koloslafracetype';
+    protected $table            = 'notetype';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';

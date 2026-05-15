@@ -4,9 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafResult extends Model
+class Location extends Model
 {
-    protected $table            = 'koloslafresult';
+    protected $table            = 'location';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafRaceYear extends Model
+class UciTourType extends Model
 {
-    protected $table            = 'koloslafraceyear';
+    protected $table            = 'ucitourtype';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';

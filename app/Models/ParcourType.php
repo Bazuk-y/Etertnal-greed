@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafParcourType extends Model
+class ParcourType extends Model
 {
-    protected $table            = 'koloslafparcourtype';
+    protected $table            = 'parcourtype';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
