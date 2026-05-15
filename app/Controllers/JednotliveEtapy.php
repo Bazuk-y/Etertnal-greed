@@ -7,10 +7,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class JednotliveEtapy extends BaseController
 {
-    public function index()
+    public function index2()
     {
        
         
+        
+
+
         
     }
 }
