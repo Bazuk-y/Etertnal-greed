@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KoloslafRider extends Model
+class Rider extends Model
 {
     protected $table            = 'rider';
     protected $primaryKey       = 'id';
