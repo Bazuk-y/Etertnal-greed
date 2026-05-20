@@ -1,5 +1,2 @@
-<<<<<<< HEAD
 <script src="<?= base_url('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'); ?>"></script>
-=======
 <script src="<?=base_url("node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");?>"></script>
->>>>>>> 6677dc9 (first commit)

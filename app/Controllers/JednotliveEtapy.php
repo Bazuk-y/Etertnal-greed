@@ -3,30 +3,33 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Rider as trpaslik;
 use App\Models\RaceYear as Golem;
-use App\Models\Result as zabak;
-
 
 class JednotliveEtapy extends BaseController
 {
-    public function index()
+    // 1. Metoda pro zobrazení všech karet na úvodní stránce
+    public function karty()
+{
+    $raceYearModel = new \App\Models\RaceYear();
+
+    // Přidali jsme asArray()
+    $raceData = $raceYearModel->asArray()->findAll(10); 
+
+    $data = [
+        "fujky" => $raceData
+    ];
+
+    return view("Karty", $data);
+}
+    // 2. Metoda pro zobrazení detailu po kliknutí na tlačítko
+    public function etapy($id)
     {
-       $RaceYear = new Golem();
-       $Race = $RaceYear->join("RaceYear","Race_Year.id_race = Result.id_stage","inner")->join("Result","Result.id = Rider.id","inner");
-       //var_dump($Race);
+        // Tady si pak vytáhneš data z DB jen pro to jedno konkrétní $id
         $data = [
-            "fujky" => $Race
-
-
-
+            "id_etapy" => $id
+            // "etapy" => $nejakaDataZModelu
         ];
-        echo view("jednotlive_Etapy",$data);
-        echo view("Karty",$data);
 
-
-
-        
+        return view("jednotlive_Etapy", $data);
     }
 }

@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class RaceYear extends Model
 {
-    protected $table            = 'raceyear';
+    protected $table            = 'race_year';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
