@@ -11,7 +11,7 @@ use App\Models\Result as zabak;
 
 class JednotliveEtapy extends BaseController
 {
-    public function Join()
+    public function index()
     {
        $RaceYear = new Golem();
        $Race = $RaceYear->join("RaceYear","Race_Year.id_race = Result.id_stage","inner")->join("Result","Result.id = Rider.id","inner");
