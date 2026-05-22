@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?= $this->extend("layout/sablon");?>
 <?= $this->section("content");?>
 
