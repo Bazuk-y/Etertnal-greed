@@ -26,7 +26,8 @@ class JednotliveEtapy extends BaseController
     {
         // Tady si pak vytáhneš data z DB jen pro to jedno konkrétní $id
         $data = [
-            "id_etapy" => $id
+            "id_etapy" => $id,
+            "Rider" => $first_name
             // "etapy" => $nejakaDataZModelu
         ];
 
