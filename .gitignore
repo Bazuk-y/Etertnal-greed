@@ -85,11 +85,10 @@ phpunit
 # Composer
 #-------------------------
 vendor/
-<<<<<<< HEAD
 node_modules/
 img/
-=======
->>>>>>> 6677dc9 (first commit)
+app/Config/Database.php
+app/Config/App.php
 
 #-------------------------
 # IDE / Development Files

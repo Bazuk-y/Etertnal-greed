@@ -18,7 +18,7 @@ class App extends BaseConfig
      */
     //public string $baseURL = 'http://localhost/Lecian/uzasnydigitalniprojekt/';
 
-     public string $baseURL = 'http://localhost/strizik/Etertnal-greed-main/';
+     public string $baseURL = 'http://localhost/Lecian/Etertnal-greed-main/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
