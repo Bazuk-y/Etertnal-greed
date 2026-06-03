@@ -21,15 +21,31 @@ class JednotliveEtapy extends BaseController
     return view("Karty", $data);
 }
     // 2. Metoda pro zobrazení detailu po kliknutí na tlačítko
-    public function etapy($id)
-    {
-        // Tady si pak vytáhneš data z DB jen pro to jedno konkrétní $id
-        $data = [
-            "id_etapy" => $id,
-            "Rider" => $first_name
-            // "etapy" => $nejakaDataZModelu
-        ];
+   
+public function etapy($id)
+{
+    $raceYearModel = new Golem(); // Model RaceYear
 
-        return view("jednotlive_Etapy", $data);
+    // Spojíme tabulky dohromady a vybereme konkrétní ID
+    // Předpokládám, že propojujeme RaceYear -> Result -> Rider
+    $jezdecData = $raceYearModel
+        ->select('Race_Year.*, Result.*, Rider.*') // Vybere sloupce ze všech tabulek
+        ->join('Result', 'Result.id_stage = Race_Year.id_race', 'inner') // Spojení na výsledky
+        ->join('Rider', 'Rider.id = Result.id', 'inner')               // Spojení na jezdce
+        ->where('Race_Year.id_race', $id)                               // Vyfiltrujeme podle ID z URL
+        ->first();                                                     // Vytáhneme první odpovídající řádek jako objekt
+
+    // Pokud databáze nic nevrátila, vyhodíme 404, ať web nespadne na chybě
+    if (!$jezdecData) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Etapa nebo jezdec nenalezen.");
     }
+
+    // Zabalíme data do pole pro View
+    $data = [
+        "id_etapy" => $id,
+        "jezdec"   => $jezdecData // Tady už bude schovaný i ten tvůj $jezdec->first_name!
+    ];
+
+    return view("jednotlive_Etapy", $data);
+}
 }
