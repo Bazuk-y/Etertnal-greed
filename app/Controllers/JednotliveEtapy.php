@@ -12,12 +12,11 @@ class JednotliveEtapy extends BaseController
 {
     $raceYearModel = new \App\Models\RaceYear();
 
-    // Přidali jsme asArray()
-    $raceData = $raceYearModel->asArray()->findAll(10); 
-
-    $data = [
-        "fujky" => $raceData
-    ];
+    // Vytáhneme data z databáze a rovnou je vyfiltrujeme podle id_race = 83
+    $data['fujky'] = $raceYearModel->asArray()
+                                   ->where('id_race', 83)
+                                   ->orderBy('year', 'DESC') // Seřadí od nejnovějšího roku
+                                   ->findAll(); 
 
     return view("Karty", $data);
 }

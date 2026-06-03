@@ -3,13 +3,20 @@
 <div class="row">
 <?php
 /** @var array $fujky */
-foreach ($fujky as $row) {
+foreach ($fujky  as $row) {
+    
+        // Pokud id_race NENÍ 83, přeskoč tento řádek a jdi na další
+        if ($row['id_race'] != "83") {
+            continue;
+        }
     ?>
     <div class="card" style="width:400px; margin: 10px;">
         <img class="card-img-top" src="../bootstrap4/img_avatar1.png" alt="Card image" style="width:100%">
         <div class="card-body">
-            <h4 class="card-title"><?= esc($row['id_race'] ?? 'Neznámý závod') ?></h4>
-            <p class="card-text">Tady bude nějaký popisek z databáze.</p>
+            <h4 class="card-title"><?= esc($row['year'] ?? 'Neznámý závod') ?></h4>
+            <p class="card-text">Délka: <?=  $row['uci_tour'] ?></p>
+            <p class="card-text">Datum začátku:<?=  $row['start_date'] ?></p>
+            <p class="card-text">Datum Konce:<?=  $row['end_date'] ?></p>
             
             <?= anchor("jednotlive_etapy/" . $row['id_race'], 'Jednotlivé etapy', ['class' => 'btn btn-primary']) ?>      
         </div>

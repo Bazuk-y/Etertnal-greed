@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?= $this->extend("layout/sablon");?>
 <?= $this->section("content");?>
 
@@ -11,7 +10,7 @@
 $table = new \CodeIgniter\View\Table(); //generuje html kod tabulek
 $table->setHeading("jmeno"); //nastaví sloupce
 foreach($data as $row){ //bere data a dává je tam
-$table->addRow(date($row->first_name); 
+$table->addRow(date($row->first_name));
 }
 $template = array( //vzhled tabulky
     'table_open'=> '<table class="table table-bordered">',
@@ -41,6 +40,3 @@ echo $table->generate();
 ?> 
 </div>
 <?= $this->endSection(); ?>
-=======
-dfgfdsggt
->>>>>>> cda99d4a88f7cbef48a771b248cab64f1b8dcd0b
