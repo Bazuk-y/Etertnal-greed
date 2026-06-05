@@ -22,7 +22,7 @@ class JednotliveEtapy extends BaseController
         // Projdeme každý závod a spočítáme k němu celkovou délku etap
         foreach ($races as $key => $race) {
             // POZOR: Pokud se tvoje tabulka s etapami jmenuje jinak než 'stages', přepiš název níže
-            $sumQuery = $db->table('stages') 
+            $sumQuery = $db->table('stage') 
                            ->selectSum('distance', 'total_distance')
                            ->where('id_race_year', $race['id']) // id_race_year odpovídá id z tabulky závodů
                            ->get()
