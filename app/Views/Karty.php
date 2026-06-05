@@ -1,4 +1,4 @@
-<?= $this->extend('Layout/template') ?>
+<?= $this->extend('Layout/sablona') ?>
 <?= $this->section('content'); ?>
 <div class="row">
 <?php
