@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "vendor": "^0.0.2"
+    "vendor": "^1.7.0"
   }
 }
