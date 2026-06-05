@@ -1,4 +1,4 @@
-<?= $this->extend('Layout/sablona') ?>
+<?= $this->extend('Layout/sablona'); ?>
 <?= $this->section('content'); ?>
 <div class="row">
 <?php
@@ -14,7 +14,7 @@ foreach ($fujky  as $row) {
         <img class="card-img-top" src="../bootstrap4/img_avatar1.png" alt="Card image" style="width:100%">
         <div class="card-body">
             <h4 class="card-title"><?= esc($row['year'] ?? 'Neznámý závod') ?></h4>
-            <p class="card-text">Délka: <?=  $row['uci_tour'] ?></p>
+            <p class="card-text">Celková délka: <?= esc($row['total_distance']) ?> km</p>
             <p class="card-text">Datum začátku:<?=  $row['start_date'] ?></p>
             <p class="card-text">Datum Konce:<?=  $row['end_date'] ?></p>
             
