@@ -1,5 +1,5 @@
-<?= $this->extend('Layout/sablona'); ?>
-<?= $this->section('content'); ?>
+<?= $this->extend("layout/sablona");?>
+<?= $this->section("content");?>
 <div class="row">
 <?php
 /** @var array $fujky */
