@@ -60,7 +60,7 @@ class JednotliveEtapy extends BaseController
         // Zabalíme data do pole pro View
         $data = [
             "id_etapy" => $id,
-            "jezdec"   => $jezdecData // Tady už bude schovaný i ten tvůj $jezdec->first_name!
+            "jezdec"   => $jezdecData 
         ];
 
         return view("jednotlive_Etapy", $data);

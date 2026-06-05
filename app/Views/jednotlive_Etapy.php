@@ -11,13 +11,13 @@
 
     // Nastavení hlavičky tabulky
     $table->setHeading("Vlastnost", "Hodnota");
-
+foreach($jezdec as $row){
     // Přidání řádků z propojených tabulek
     $table->addRow("Jméno", $jezdec->first_name);
     $table->addRow("Příjmení", $jezdec->last_name);
     $table->addRow("Země", $jezdec->country);
     $table->addRow("Datum narození", $jezdec->date_of_birth);
-    
+}
     // Vzhled tabulky přes Bootstrap
     $template = [
         'table_open' => '<table class="table table-bordered table-striped">'
