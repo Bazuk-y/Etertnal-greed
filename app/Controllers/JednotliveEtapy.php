@@ -3,66 +3,131 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\RaceYear as Golem;
+use App\Models\Result;
 
 class JednotliveEtapy extends BaseController
 {
-    // 1. Metoda pro zobrazení všech karet na úvodní stránce
+    // 1. Úvodní stránka s kartami ročníků (id_race = 83)
     public function karty()
     {
-        $raceYearModel = new \App\Models\RaceYear();
         $db = \Config\Database::connect();
 
-        // Vytáhneme data z databáze a rovnou je vyfiltrujeme podle id_race = 83
-        $races = $raceYearModel->asArray()
-                               ->where('id_race', 83)
-                               ->orderBy('year', 'DESC') // Seřadí od nejnovějšího roku
-                               ->findAll(); 
+        $races = $db->table('koloslaf_race_year')
+                    ->where('id_race', 83)
+                    ->orderBy('year', 'DESC')
+                    ->get()
+                    ->getResultArray(); 
 
-        // Projdeme každý závod a spočítáme k němu celkovou délku etap
         foreach ($races as $key => $race) {
-            // POZOR: Pokud se tvoje tabulka s etapami jmenuje jinak než 'stages', přepiš název níže
-            $sumQuery = $db->table('stage') 
+            $sumQuery = $db->table('koloslaf_stage') 
                            ->selectSum('distance', 'total_distance')
-                           ->where('id_race_year', $race['id']) // id_race_year odpovídá id z tabulky závodů
+                           ->where('id_race_year', $race['id']) 
                            ->get()
                            ->getRowArray();
 
-            // Uložíme výsledný součet do pole k danému závodu (pokud nic nenajde, dá 0)
             $races[$key]['total_distance'] = $sumQuery['total_distance'] ?? 0;
         }
 
-        // Data předáme do View pod původním názvem 'fujky'
         $data['fujky'] = $races;
-
         return view("Karty", $data);
     }
 
-    // 2. Metoda pro zobrazení detailu po kliknutí na tlačítko
-    public function etapy($id)
+    // 2. Seznam etap pro vybraný ročník a jejich TOP 10 výsledků
+    public function etapy($id_race_year)
     {
-        $raceYearModel = new Golem(); // Model RaceYear
+        $db = \Config\Database::connect();
 
-        // Spojíme tabulky dohromady a vybereme konkrétní ID
-        // Předpokládám, že propojujeme RaceYear -> Result -> Rider
-        $jezdecData = $raceYearModel
-            ->select('Race_Year.*, Result.*, Rider.*') // Vybere sloupce ze všech tabulek
-            ->join('Result', 'Result.id_stage = Race_Year.id_race', 'inner') // Spojení na výsledky
-            ->join('Rider', 'Rider.id = Result.id', 'inner')               // Spojení na jezdce
-            ->where('Race_Year.id_race', $id)                               // Vyfiltrujeme podle ID z URL
-            ->first();                                                     // Vytáhneme první odpovídající řádek jako objekt
+        $etapy = $db->table('koloslaf_stage')
+                    ->where('id_race_year', $id_race_year)
+                    ->get()
+                    ->getResultArray();
 
-        // Pokud databáze nic nevrátila, vyhodíme 404, ať web nespadne na chybě
-        if (!$jezdecData) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Etapa nebo jezdec nenalezen.");
+        foreach ($etapy as $key => $etapa) {
+            $vysledky = $db->table('koloslaf_result')
+                ->select('koloslaf_result.id as result_id, koloslaf_result.time, koloslaf_result.rank, koloslaf_rider.first_name, koloslaf_rider.last_name, koloslaf_rider.country')
+                ->join('koloslaf_rider', 'koloslaf_rider.id = koloslaf_result.id_rider', 'inner')
+                ->where('koloslaf_result.id_stage', $etapa['id'])
+                // TENTO ŘÁDEK ZDE SMAŽ NEBO ZAKOMENTUJ:
+                // ->where('koloslaf_result.deleted_at', null) 
+                ->orderBy('CAST(koloslaf_result.rank AS UNSIGNED)', 'ASC')
+                ->limit(10)
+                ->get()
+                ->getResultArray();
+
+            $etapy[$key]['vysledky'] = $vysledky;
         }
 
-        // Zabalíme data do pole pro View
         $data = [
-            "id_etapy" => $id,
-            "jezdec"   => $jezdecData // Tady už bude schovaný i ten tvůj $jezdec->first_name!
+            "id_rocniku" => $id_race_year,
+            "etapy"      => $etapy
+        ];
+        
+        return view("jednotlive_Etapy", $data);
+    }
+
+    // 3. Zobrazení formuláře pro úpravu výsledku
+    public function editovatVysledek($id_vysledku)
+    {
+        $db = \Config\Database::connect();
+
+        $vysledek = $db->table('koloslaf_result')
+            ->select('koloslaf_result.*, koloslaf_rider.first_name, koloslaf_rider.last_name')
+            ->join('koloslaf_rider', 'koloslaf_rider.id = koloslaf_result.id_rider')
+            ->where('koloslaf_result.id', $id_vysledku)
+            ->get()
+            ->getRowArray();
+
+        if (!$vysledek) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Výsledek nenalezen.");
+        }
+
+        $data['vysledek'] = $vysledek;
+        return view("editovat_vysledek", $data);
+    }
+
+    // 4. Uložení formuláře a přesné přesměrování zpět na tabulku etap
+    public function ulozitVysledek($id_vysledku)
+    {
+        $resultModel = new Result();
+        $db = \Config\Database::connect();
+
+        // Zjistíme id_race_year, abychom věděli, kam uživatele z redirectu přesně vrátit
+        $aktualniVysledek = $db->table('koloslaf_result')
+            ->select('koloslaf_stage.id_race_year')
+            ->join('koloslaf_stage', 'koloslaf_stage.id = koloslaf_result.id_stage')
+            ->where('koloslaf_result.id', $id_vysledku)
+            ->get()
+            ->getRowArray();
+
+        $id_race_year = $aktualniVysledek['id_race_year'] ?? null;
+        $id_rider = $this->request->getPost('id_rider');
+        
+        // Aktualizace jezdce v tabulce koloslaf_rider
+        $db->table('koloslaf_rider')->where('id', $id_rider)->update([
+            'first_name' => $this->request->getPost('first_name'),
+            'last_name'  => $this->request->getPost('last_name')
+        ]);
+
+        // Aktualizace času a pořadí v koloslaf_result přes bezpečný model
+        $dataResult = [
+            'time' => $this->request->getPost('time'),
+            'rank' => $this->request->getPost('rank')
         ];
 
-        return view("jednotlive_Etapy", $data);
+        $resultModel->update($id_vysledku, $dataResult);
+
+        if ($id_race_year) {
+            return redirect()->to(site_url('jednotlive_etapy/' . $id_race_year))->with('success', 'Výsledky byly úspěšně uloženy.');
+        }
+        return redirect()->to(site_url('/'))->with('success', 'Výsledky byly úspěšně uloženy.');
+    }
+
+    // 5. Metoda pro Soft Delete (Virtuální smazání)
+    public function smazatVysledek($id_vysledku)
+    {
+        $resultModel = new Result();
+        $resultModel->delete($id_vysledku);
+
+        return redirect()->to(previous_url())->with('success', 'Záznam byl úspěšně soft-smazán.');
     }
 }

@@ -6,12 +6,18 @@ use CodeIgniter\Model;
 
 class Result extends Model
 {
-    protected $table            = 'result';
+    // Opravený název tabulky podle tvé DB
+    protected $table            = 'koloslaf_result';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
+    
+    // Soft Deletes vypnuté, dokud nepřidáš sloupec deleted_at do DB
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    
+    // Povolené sloupce pro zápis/úpravu
+    protected $allowedFields    = ['id_rider', 'time', 'rank'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -19,7 +25,7 @@ class Result extends Model
     protected array $casts = [];
     protected array $castHandlers = [];
 
-    // Dates
+    // Dates - vypnuté, aby to nehledalo chybějící sloupce created_at/updated_at
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
