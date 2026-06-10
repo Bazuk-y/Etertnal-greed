@@ -47,17 +47,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($etapa['vysledky'] as $vysledek): ?>
+                                <?php foreach ($etapa['vysledky'] as $index => $vysledek): ?>
                                     <tr>
-                                        <td><span class="badge bg-primary fs-6"><?= esc($vysledek['rank']) ?>.</span></td>
+                                        <td>
+                                            <span class="badge bg-primary fs-6"><?= $index + 1 ?>.</span>
+                                        </td>
+                                        
                                         <td><?= esc($vysledek['first_name'] . ' ' . $vysledek['last_name']) ?></td>
                                         <td>
-                                            <span class="text-uppercase fw-bold text-muted"><?= esc($vysledek['country']) ?></span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="fi fi-<?= strtolower(esc($vysledek['country'])) ?> shadow-sm" style="width: 24px; height: 16px;"></span>
+                                                <span class="text-uppercase fw-bold text-muted small"><?= esc($vysledek['country']) ?></span>
+                                            </div>
                                         </td>
                                         <td><code><?= esc($vysledek['time']) ?></code></td>
                                         <td>
                                             <a href="<?= site_url('vysledky/editovat/' . $vysledek['result_id']) ?>" class="btn btn-sm btn-warning">Upravit</a>
-                                            <a href="<?= site_url('vysledky/smazat/' . $vysledek['result_id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Opravdu chcete tento výsledek soft-smazat?')">Smazat</a>
+                                            <a href="<?= site_url('vysledky/smazat/' . $vysledek['result_id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Opravdu chcete tento výsledek soft-smazán?')">Smazat</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
